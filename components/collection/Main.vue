@@ -152,7 +152,7 @@ const edit = (note: any) => {
     if (note.uid === data.uid) {
       console.log("dattaaa", data, note);
       // Changing the edited tag
-      data.name = note.note;
+      data.note = note.note;
     }
   });
   getNotes();
