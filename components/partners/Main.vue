@@ -5,10 +5,13 @@
     <div v-if="addPartner" class="block justify-end">
       <PartnersAdd @add="add"></PartnersAdd>
     </div>
+    <div v-if="editInput.length">
+      <PartnersEdit :partner="editInput" @edit="edit" />
+    </div>
     <button
       type="button"
       class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-      @click="addPartner=true"
+      @click="addPartner = true"
     >
       Add partner
     </button>
@@ -67,13 +70,13 @@ const add = async (form: any) => {
   partners.value.unshift(data.value);
   getTags();
 };
-const emitData = (tag: Object) => {
-  tag.value == "edit" ? (editInput.value = tag.tag) : deleteTag(tag);
+const emitData = (partner: Object) => {
+  partner.value == "edit" ? (editInput.value = partner.partner) : deleteTag(partner);
   console.log("editIn23put", editInput);
 };
 // Delete tags
 const deleteTag = async (tag: any) => {
-  await useAuthLazyFetchDelete(`${props.url}${tag.tag.uid}`, {});
+  await useAuthLazyFetchDelete(`${props.url}${partner.partner.uid}`, {});
   // If the tag exists, delete it
   if (tag.index !== -1) {
     // To remove deleted tag
@@ -82,27 +85,32 @@ const deleteTag = async (tag: any) => {
   }
 };
 // Edit tags
-const edit = async (tag: any) => {
-  await useAuthLazyFetchPut(`${props.url}${tag.uid}?name=${tag.tag}`, {
+const edit = async (partner: any) => {
+  await useAuthLazyFetchPut(`${props.url}${partner.uid}?name=${partner.partner}`, {
     body: {
-      project_id: props.project_id,
-      name: tag.tag,
-      entity: props.entity,
-    },
+        category:partner.partner.category,
+        industry: partner.partner.industry,
+        name: partner.partner.name,
+        email: partner.partner.email,
+        rating: 0,
+        type: "Partner",
+        address: {
+          street: partner.partner.street,
+          city: partner.partner.city,
+          state: partner.partner.state,
+          country: partner.partner.country,
+          zip_code:partner.partner.code,
+        },
+        website: "www.google.com",
+        status: 1,
+        profile_id: 1,
+      },
   });
 };
-// Split ids and name and mapping into single object
-const transformTags = (tag: any) => {
-  let tag_data = tag.name.split(",");
-  let tag_ids = tag.uid.split(",");
-  return tag_data.map((name, id) => {
-    return { name: name, tag_id: tag_ids[id] };
-  });
-};
-const getTags = async () => {
+
+const getpartners = async () => {
   // Get tags from appconfig
   const { data: partnersdata } = await useAuthLazyFetch(`${props.geturl}`, {});
   partners.value = partnersdata.value;
-  editInput.value = tags.value;
 };
 </script>

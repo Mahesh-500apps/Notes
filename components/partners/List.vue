@@ -60,12 +60,28 @@
                       @click="
                         emit('emitData', {
                           partner: partner,
-                          value: 'delete',
+                          value: 'edit',
                           index: index,
                         })
                       "
                     /><span class="sr-only">, {{ partner.name }}</span></a
                   >
+                </td>
+                <td>
+                  <div>
+                    <a href="#" class="text-indigo-600 hover:text-indigo-900">
+                      <PencilIcon
+                        class="h-5 w-5 sm:ml-[150px] sm:mb-[-20px] right-0"
+                        @click="
+                          emit('emitData', {
+                            partner: partner,
+                            value: 'delete',
+                            index: index,
+                          })
+                        "
+                      /><span class="sr-only">, {{ partner.name }}</span></a
+                    >
+                  </div>
                 </td>
               </tr>
             </tbody>
