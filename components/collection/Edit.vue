@@ -32,7 +32,7 @@ const props = defineProps({
   note: { type: Object, required: true }, // Edited note
 });
 
-const selectedNote = ref(props.note.name);
+const selectedNote = ref(props.note.note);
 // Close input after editing
 const editInput = ref("true");
 const emit = defineEmits(["edit"]);

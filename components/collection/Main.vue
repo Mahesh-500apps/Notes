@@ -106,18 +106,18 @@ const props = withDefaults(defineProps<FormItemSchema>(), {
   projectId: "",
   entity: "",
 });
-const notes = ref([]);
+const notes=ref([])
 const editInput = ref([]);
 const { data: notesdata } = await useAuthLazyFetch(`${props.url}`, {});
-notes.value = notesdata.value;
+ notes.value = notesdata.value;
 const open = ref(true);
 
-console.log("notes.value -->", notes.value);
 const emitData = (note: Object) => {
+  console.log('note--->',note)
   note.value == "edit" ? (editInput.value = note.note) : deleteNote(note);
 };
-const add = (note: any) => {
-  const { data } = useAuthLazyFetchPost(
+const add = async (note: any) => {
+  const { data } = await useAuthLazyFetchPost(
     `${props.editUrl}/${props.entity}/${props.entityId}`,
     {
       body: {
@@ -129,6 +129,7 @@ const add = (note: any) => {
     }
   );
   notes.value.unshift(data.value);
+  editInput.value=[]
 };
 const deleteNote = (note: any) => {
   useAuthLazyFetchDelete(`${props.editUrl}/${note.note.uid}`, {});
@@ -147,10 +148,6 @@ const edit = (note: any) => {
       entity: props.entity,
     },
   });
-  const getNotes = async () => {
-    const { data: notesdata } = await useAuthLazyFetch(`${props.url}`, {});
-    notes.value = notesdata.value;
-  };
   notes.value.forEach((data: any) => {
     if (note.uid === data.uid) {
       console.log("dattaaa", data, note);
@@ -158,5 +155,10 @@ const edit = (note: any) => {
       data.name = note.note;
     }
   });
+  getNotes();
+};
+const getNotes =() => {
+  const { data: notesdata } =  useAuthLazyFetch(`${props.url}`, {});
+  notes.value = notesdata.value;
 };
 </script>

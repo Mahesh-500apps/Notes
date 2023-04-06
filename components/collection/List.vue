@@ -2,11 +2,11 @@
   <div>
     <PencilIcon
       class="h-5 w-5 sm:ml-[120px] sm:mb-[-20px] right-0"
-      @click="emitData(note, 'edit')"
-    />
+      @click="emit('emitData', { note:note,value: 'edit' ,index:index  })"
+    ></PencilIcon>
     <TrashIcon
       class="h-5 w-5 sm:ml-[150px] sm:mb-[-20px] right-0"
-      @click="emitData(note, 'delete')"
+      @click="emit('emitData', { note:note,value: 'delete',index:index   })"
     />
   </div>
   <div class="relative mt-8 flex items-center gap-x-4">
@@ -25,9 +25,4 @@ const props = defineProps({
   note: { type: Object, required: true },
   index: { type: Number, required: true },
 });
-
-
-const emitData = (note: any, value: any) => {
-  emit("emitData", { note: note, value: value, index: props.index });
-};
 </script>
