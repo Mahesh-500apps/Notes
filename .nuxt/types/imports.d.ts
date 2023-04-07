@@ -79,10 +79,10 @@ declare global {
   const useAppConfig: typeof import('../../node_modules/nuxt/dist/app')['useAppConfig']
   const useAsyncData: typeof import('../../node_modules/nuxt/dist/app')['useAsyncData']
   const useAttrs: typeof import('vue')['useAttrs']
-  const useAuthLazyFetch: typeof import('../../composables/useLazyFetch')['useAuthLazyFetch']
-  const useAuthLazyFetchDelete: typeof import('../../composables/useLazyFetch')['useAuthLazyFetchDelete']
-  const useAuthLazyFetchPost: typeof import('../../composables/useLazyFetch')['useAuthLazyFetchPost']
-  const useAuthLazyFetchPut: typeof import('../../composables/useLazyFetch')['useAuthLazyFetchPut']
+  const useAuthLazyFetch: typeof import('../../composables/useAuthLazyFetch')['useAuthLazyFetch']
+  const useAuthLazyFetchDelete: typeof import('../../composables/useAuthLazyFetch')['useAuthLazyFetchDelete']
+  const useAuthLazyFetchPost: typeof import('../../composables/useAuthLazyFetch')['useAuthLazyFetchPost']
+  const useAuthLazyFetchPut: typeof import('../../composables/useAuthLazyFetch')['useAuthLazyFetchPut']
   const useCookie: typeof import('../../node_modules/nuxt/dist/app')['useCookie']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
@@ -204,10 +204,10 @@ declare module 'vue' {
     readonly useAppConfig: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['useAppConfig']>
     readonly useAsyncData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['useAsyncData']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
-    readonly useAuthLazyFetch: UnwrapRef<typeof import('../../composables/useLazyFetch')['useAuthLazyFetch']>
-    readonly useAuthLazyFetchDelete: UnwrapRef<typeof import('../../composables/useLazyFetch')['useAuthLazyFetchDelete']>
-    readonly useAuthLazyFetchPost: UnwrapRef<typeof import('../../composables/useLazyFetch')['useAuthLazyFetchPost']>
-    readonly useAuthLazyFetchPut: UnwrapRef<typeof import('../../composables/useLazyFetch')['useAuthLazyFetchPut']>
+    readonly useAuthLazyFetch: UnwrapRef<typeof import('../../composables/useAuthLazyFetch')['useAuthLazyFetch']>
+    readonly useAuthLazyFetchDelete: UnwrapRef<typeof import('../../composables/useAuthLazyFetch')['useAuthLazyFetchDelete']>
+    readonly useAuthLazyFetchPost: UnwrapRef<typeof import('../../composables/useAuthLazyFetch')['useAuthLazyFetchPost']>
+    readonly useAuthLazyFetchPut: UnwrapRef<typeof import('../../composables/useAuthLazyFetch')['useAuthLazyFetchPut']>
     readonly useCookie: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['useCookie']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>

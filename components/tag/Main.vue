@@ -43,7 +43,7 @@
           class="border-b border-gray-200 pb-5 text-sm sm:flex sm:justify-between"
         >
           <dl class="flex">
-            <h1 class="text-xl font-bold tracking-tight text-gray-900">Tags</h1>
+            <h1 class="text-xl font-bold tracking-tight text-gray-900">Partners</h1>
           </dl>
           <div class="mt-4 sm:mt-0">
             <button
@@ -86,13 +86,15 @@
                     <DialogPanel
                       class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
                     >
-                      <TagAdd @formSave="addTag" @hide="cancel" />
+                      
                     </DialogPanel>
+                    
                   </TransitionChild>
                 </div>
               </div>
             </Dialog>
           </TransitionRoot>
+          <div v-if="addPartner"><TagAdd @formSave="addTag" @hide="cancel" /></div>
           <div
             v-for="(tag, index) in tags"
             :key="index"
@@ -130,6 +132,7 @@ const props = withDefaults(defineProps<CollectionTags>(), {
   projectId: "",
   entity: "",
 });
+const addPartner=ref(false)
 const tags = ref([]);
 const tags_transform = ref({});
 // Get tags from appconfig

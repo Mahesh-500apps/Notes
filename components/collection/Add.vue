@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="block">
       <label
         for="note"
         class="block text-sm font-semibold leading-6 text-gray-900"
