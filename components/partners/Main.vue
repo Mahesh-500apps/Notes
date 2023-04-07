@@ -1,13 +1,18 @@
 <template>
   <div>
-    <PartnersList :partners="partners" @emitdata="emitData"></PartnersList>
+    <div v-if="isEdit">
+      <PartnersEdit :partner="editInput" @edit="edit" />
+    </div>
+    <PartnersList
+      :partners="partners"
+      @edit="editData"
+      @delete="deleteData()"
+    ></PartnersList>
 
     <div v-if="addPartner" class="block justify-end">
       <PartnersAdd @add="add"></PartnersAdd>
     </div>
-    <div v-if="editInput.length">
-      <PartnersEdit :partner="editInput" @edit="edit" />
-    </div>
+
     <button
       type="button"
       class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -18,8 +23,6 @@
   </div>
 </template>
 <script setup lang="ts">
-
-
 interface CollectionForm {
   url: String;
   geturl: String;
@@ -33,12 +36,11 @@ const open = ref(true);
 const partners = ref([]);
 // Get tags from appconfig
 const { data: formData } = await useAuthLazyFetch(`${props.geturl}`, {});
-console.log("tagsData--->", formData);
 partners.value = formData.value;
-console.log("tags-->", partners.value);
 
 // To prepare an object that each key has an array of tags based on their initial letters
-const editInput = ref([]);
+const editInput = ref({});
+const isEdit = ref(false);
 
 const isOpen = ref(false);
 
@@ -68,47 +70,48 @@ const add = async (form: any) => {
     // Add the new tag to the tags
   );
   partners.value.unshift(data.value);
-  getTags();
+  getPartners();
 };
-const emitData = (partner: Object) => {
-  partner.value == "edit" ? (editInput.value = partner.partner) : deleteTag(partner);
-  console.log("editIn23put", editInput);
+const editData = (partner: Object) => {
+  editInput.value = partner;
+  isEdit.value=true
 };
 // Delete tags
-const deleteTag = async (tag: any) => {
-  await useAuthLazyFetchDelete(`${props.url}${partner.partner.uid}`, {});
+const deleteData = async (partner: any) => {
+  await useAuthLazyFetchDelete(`${props.url}${partner.uid}`, {});
   // If the tag exists, delete it
-  if (tag.index !== -1) {
+  if (partner.index !== -1) {
     // To remove deleted tag
-    partners.value.splice(tag.index, 1);
-    getTags();
+    partners.value.splice(partner.index, 1);
+    getPartners();
   }
 };
 // Edit tags
 const edit = async (partner: any) => {
-  await useAuthLazyFetchPut(`${props.url}${partner.uid}?name=${partner.partner}`, {
+  await useAuthLazyFetchPut(`${props.url}${partner.uid}?name=${partner}`, {
     body: {
-        category:partner.partner.category,
-        industry: partner.partner.industry,
-        name: partner.partner.name,
-        email: partner.partner.email,
-        rating: 0,
-        type: "Partner",
-        address: {
-          street: partner.partner.street,
-          city: partner.partner.city,
-          state: partner.partner.state,
-          country: partner.partner.country,
-          zip_code:partner.partner.code,
-        },
-        website: "www.google.com",
-        status: 1,
-        profile_id: 1,
+      category: partner.category,
+      industry: partner.industry,
+      name: partner.name,
+      email: partner.email,
+      rating: 0,
+      type: "Partner",
+      address: {
+        street: partner.street,
+        city: partner.city,
+        state: partner.state,
+        country: partner.country,
+        zip_code: partner.code,
       },
+      website: "www.google.com",
+      status: 1,
+      profile_id: 1,
+    },
   });
+  isEdit.value=false
 };
 
-const getpartners = async () => {
+const getPartners = async () => {
   // Get tags from appconfig
   const { data: partnersdata } = await useAuthLazyFetch(`${props.geturl}`, {});
   partners.value = partnersdata.value;

@@ -36,7 +36,7 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
-              <tr v-for="partner in partners" :key="index">
+              <tr v-for="(partner, index) in partners" :key="index">
                 <td
                   class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0"
                 >
@@ -57,28 +57,15 @@
                   <a href="#" class="text-indigo-600 hover:text-indigo-900">
                     <TrashIcon
                       class="h-5 w-5 sm:ml-[150px] sm:mb-[-20px] right-0"
-                      @click="
-                        emit('emitData', {
-                          partner: partner,
-                          value: 'edit',
-                          index: index,
-                        })
-                      "
-                    /><span class="sr-only">, {{ partner.name }}</span></a
-                  >
+                      @click="emit('delete', partner, index)"
+                  /></a>
                 </td>
                 <td>
                   <div>
                     <a href="#" class="text-indigo-600 hover:text-indigo-900">
                       <PencilIcon
                         class="h-5 w-5 sm:ml-[150px] sm:mb-[-20px] right-0"
-                        @click="
-                          emit('emitData', {
-                            partner: partner,
-                            value: 'delete',
-                            index: index,
-                          })
-                        "
+                        @click="emit('edit', partner, index)"
                       /><span class="sr-only">, {{ partner.name }}</span></a
                     >
                   </div>
@@ -94,8 +81,11 @@
 
 <script setup lang="ts">
 import { PencilIcon, TrashIcon } from "@heroicons/vue/24/outline";
-const emit = defineEmits(["emitData"]);
+const emit = defineEmits(["edit", "delete"]);
 const props = defineProps({
   partners: { type: Object, required: true },
 });
+const hello = () => {
+  console.log("hello");
+};
 </script>

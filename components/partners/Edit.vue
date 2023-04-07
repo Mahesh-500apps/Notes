@@ -184,7 +184,7 @@
       <button
         type="submit"
         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        @click="add"
+        @click="emit('edit',form)"
       >
         Save
       </button>
@@ -195,13 +195,14 @@
 const props = defineProps({
   partner: { type: Object, required: true }, // Edited note
 });
-const emit = defineEmits(["add"]);
+const emit = defineEmits(["edit"]);
 const note = ref("");
+console.log("partner--->",props.partner.name)
 const form = ref({
   name: props.partner.name,
-  email: props.partner,
-  category: props.partner,
-  industry: props.partner,
+  email: props.partner.email,
+  category: props.partner.category,
+  industry: props.partner.industry,
   street: props.partner.address.street,
   city: props.partner.address.street,
   state: props.partner.address.state,
@@ -209,9 +210,9 @@ const form = ref({
   code: props.partner.address.code,
 });
 
-const add = () => {
-  console.log("form--->", form.value);
-  emit("add", form.value);
-  form.value = {};
-};
+// const add = () => {
+//   console.log("form--->", form.value);
+//   emit("add", form.value);
+//   form.value = {};
+// };
 </script>
