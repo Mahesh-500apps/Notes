@@ -58,7 +58,7 @@
                   <a href="#" class="text-indigo-600 hover:text-indigo-900">
                     <TrashIcon
                       class="h-5 w-5 sm:ml-[150px] sm:mb-[-20px] right-0"
-                      @click="emit('delete', project,index)" /><span
+                      @click="emit('delete', project)" /><span
                       class="sr-only"
                     ></span
                   ></a>

@@ -89,6 +89,23 @@
                           />
                         </div>
                       </div>
+                      <div>
+                        <label
+                          for="status"
+                          class="block text-sm font-semibold leading-6 text-gray-900"
+                          >status:</label
+                        >
+                        <div class="mt-2.5">
+                          <select
+                            v-model="form.status"
+                            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          >
+                            <option>Fully Constructed</option>
+                            <option>Under Construction</option>
+                            <option>New Venture</option>
+                          </select>
+                        </div>
+                      </div>
 
                       <div class="mt-2">
                         <label
@@ -106,19 +123,25 @@
                         </div>
                       </div>
 
-                      <div class="mt-2">
+                      <div>
                         <label
-                          for="sub_skill"
-                          class="block text-sm font-medium leading-6 text-gray-900"
-                          >Approve Status</label
+                          for="approve_status"
+                          class="block text-sm font-semibold leading-6 text-gray-900"
+                          >approve_status:</label
                         >
-                        <div class="mt-2">
-                          <input
-                            id="sub_skill"
+                        <div class="mt-2.5">
+                          <select
                             v-model="form.approveStatus"
-                            class="pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            placeholder="Enter Sub Skill"
-                          />
+                            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          >
+                            <option>Under Review</option>
+                            <option>Rejected</option>
+                            <option>Active</option>
+                            <option>Deleted</option>
+                            <option>Expiring Soon</option>
+                            <option>Expired</option>
+                            <option>Inactive</option>
+                          </select>
                         </div>
                       </div>
                       <div class="mt-2">
@@ -206,6 +229,7 @@ const emit = defineEmits(["add", "cancel"]);
 const form = ref({
   name: "",
   type: "",
+  status:"",
   details: "",
   specifications: "",
   approveStatus: "",

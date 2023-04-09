@@ -9,7 +9,7 @@
     <ProjectsList
       :projectsList="projectsList"
       @edit="editData"
-      @delete="deleteData()"
+      @delete="deleteData"
     />
 
     <div v-if="openAddForm">
@@ -25,7 +25,7 @@
       <ProjectsEdit
         v-if="openEditForm"
         :openEditForm="openEditForm"
-        :Project="project"
+        :project="project"
         @save="edit"
         @cancel="cancel"
       />
@@ -52,28 +52,28 @@ projectsList.value = Projects.value;
 console.log("projectsList--->", projectsList.value);
 
 const addProject = async (form: any) => {
-  console.log("form---->",form)
+  console.log("form---->", form);
   const { data } = await useAuthLazyFetchPost(`${props.url}`, {
     body: {
-      name: "sdasdasd",
-      listing_type_name: "sadasda",
+      name: form.name,
+      listing_type_name: form.type,
       category: "Residential",
       sub_category: "Apartment",
-      status:"Fully Constructed" ,
-      details: "ASdsad",
-      specifications: "asdasdsad",
+      status: form.status,
+      details: form.details,
+      specifications: form.specifications,
       possession_date: "2023-04-08",
-      age_of_the_project: 0,
-      logo_ur: "string",
-      total_project_area: 0,
-      metric: "sq/ft",
+      age_of_the_project: form.projectAge,
+      logo_url: "string",
+      total_project_area: form.totalProject,
+      metric: "sq.ft",
       default_image_url: "string",
       visit_count: 0,
       rera_approved: true,
-      approve_status: "Active",
+      approve_status: form.approveStatus,
     },
   });
-  console.log("datat",data.value);
+  console.log("datat", data.value);
   projectsList.value.unshift(data.value);
   openAddForm.value = false;
 };
@@ -81,27 +81,32 @@ const edit = async (project: any) => {
   console.log("Project-**->", project);
   await useAuthLazyFetchPut(`${props.url}${project.uid}?name=${project}`, {
     body: {
-      project_id: 1,
-      name: form.Name,
-      entity: "CONTACTS",
-      type_data: {
-        is_required: 1,
-        show_in_filter: 1,
-        length: 100,
-        description: form.description,
-        placeholder: form.placeholder,
+      name: project.name,
+      listing_type_name: project.type,
+      category: "Residential",
+      sub_category: "Apartment",
+      status: project.status,
+      details: project.details,
+      specifications: project.specifications,
+      possession_date: "2023-04-08",
+      age_of_the_project: project.projectAge,
+      logo_url: "string",
+      total_project_area: project.totalProject,
+      metric: "sq.ft",
+      default_image_url: "string",
+      visit_count: 0,
+      rera_approved: true,
+      approve_status: project.approveStatus,
       },
-      type: form.type,
-      role_id: 1,
-    },
+     
   });
   openEditForm.value = false;
   getprojectsList();
 };
 const editData = (data: any) => {
-  console.log("dataaaa--->",data)
   openEditForm.value = true;
   project.value = data;
+  console.log(" data.value--->", data,project.value)
 };
 const cancel = () => {
   openAddForm.value = false;

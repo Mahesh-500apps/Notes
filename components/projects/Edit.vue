@@ -165,7 +165,7 @@
                           <div>
                             <button
                               type="submit"
-                              @click="save"
+                              @click="emit('save', project);"
                               class="rounded bg-indigo-600 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
                               Save
@@ -203,24 +203,10 @@ const props = withDefaults(defineProps<Question>(), {
   openEditForm: '',
   project:{}
 });
-
+const project=ref(props.project)
 // Define Emits
 const emit = defineEmits(["save", "cancel"]);
-// const form = ref({
-  // name: "",
-  // type: "",
-  // details: "",
-  // specifications: "",
-  // approveStatus: "",
-  // projectAge: "",
-  // totalProject: "",
-// });
-// On clicking on save button we emit form data to parent file
-const save = () => {
-  console.log("form.value---->", form.value);
-  emit("save", form.value);
-  form.value = {};
-};
+
 // On clicking on cancel button we will close Sidebar
 const cancel = () => {
   emit("cancel");
