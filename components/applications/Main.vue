@@ -1,21 +1,22 @@
 <template>
+  <div>
+    <button
+      type="button"
+      class=" bg-indigo-600 p-4 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+      @click="open = true"
+    >
+      Add Application
+    </button>
     <div
       class="block w-[800px] p-4 bg-white border border-gray-200 rounded-lg shadow bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:bg-gray-700 mt-2"
     >
       <ApplicationsList v-if="application.length" :application="application" />
     </div>
     <div class="flex justify-end">
-      <button
-        type="button"
-        class="rounded-full bg-indigo-600 p-4 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        @click="open = true"
-      >
-        Add Application
-      </button>
       <TransitionRoot as="template" :show="open">
         <Dialog as="div" class="relative z-10" @close="open = false">
           <div class="fixed inset-0" />
-  
+
           <div class="fixed inset-0 overflow-hidden">
             <div class="absolute inset-0 overflow-hidden">
               <div
@@ -47,7 +48,7 @@
                                 @cancel="open = false"
                               ></ApplicationsAdd>
                             </div>
-  
+
                             <div class="ml-3 flex h-7 items-center">
                               <button
                                 type="button"
@@ -70,57 +71,64 @@
         </Dialog>
       </TransitionRoot>
     </div>
-  </template>
-  <script setup lang="ts">
-  import {
-    TransitionChild,
-    DialogPanel,
-    TransitionRoot,
-    Dialog,
-  } from "@headlessui/vue";
-  import { PlusIcon, XMarkIcon } from "@heroicons/vue/24/outline";
-  
-  const application = ref([]);
-  
-  const { data:appplicationData } = await useAuthLazyFetch(
+  </div>
+</template>
+<script setup lang="ts">
+import {
+  TransitionChild,
+  DialogPanel,
+  TransitionRoot,
+  Dialog,
+} from "@headlessui/vue";
+import { PlusIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+interface Collection {
+  url: String;
+  geturl: String;
+}
+const props = withDefaults(defineProps<Collection>(), {
+  url: "",
+  geturl: "",
+});
+const application = ref([]);
+
+const { data: appplicationData } = await useAuthLazyFetch(
+  `${props.geturl}`,
+  {}
+);
+application.value = appplicationData.value;
+
+const open = ref(false);
+
+const add = async (application: any) => {
+  const { data } = await useAuthLazyFetchPost(
+    `${props.url}`,
+    {
+      body: {
+        candidate_id: application.candidateId,
+        job_posting_id: application.jobId,
+        status: application.status,
+        resume_url: application.resumeUrl,
+        cover_letter: application.coverLetter,
+        track_info: [],
+        questionnaire: [],
+      },
+    }
+  );
+  open.value = false;
+  getApplications();
+};
+
+// Get forms
+const getApplications = async () => {
+  application.value = [];
+  const { data: appplicationData } = await useAuthLazyFetch(
     `https://v1-stark-db-orm.mars.hipso.cc/api/applications/?offset=0&limit=100`,
     {}
   );
   application.value = appplicationData.value;
-  
-  const open = ref(false);
-  
-  const add = async (application: any) => {
-    const { data } = await useAuthLazyFetchPost(
-      `https://v1-stark-db-orm.mars.hipso.cc/api/applications/`,
-      {
-        body: {
-  "candidate_id": application.candidate_id,
-  "job_posting_id": application.job_posting_id,
-  "status": application.status,
-  "resume_url": application.resume_url,
-  "cover_letter": application.cover_letter,
-  "track_info": [],
-  "questionnaire": []
-},
-      }
-    );
-    open.value = false;
-    getApplications();
-  };
-  
-  // Get forms
-  const getApplications = async () => {
-    application.value = [];
-    const { data: appplicationData } = await useAuthLazyFetch(
-      `https://v1-stark-db-orm.mars.hipso.cc/api/applications/?offset=0&limit=100`,
-      {}
-    );
-    application.value = appplicationData.value;
-  };
-  
-  //
-  
-  // };
-  </script>
-  
+};
+
+//
+
+// };
+</script>

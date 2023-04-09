@@ -1,7 +1,8 @@
 <template>
     <div>
       <ApplicationsMain
-       
+       :url="url"
+       :geturl="geturl"
       ></ApplicationsMain>
     </div>
   </template>
