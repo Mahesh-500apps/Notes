@@ -16,6 +16,7 @@
       :contacts="contacts"
       @emitData="emitData"
     />
+    <ExamChart :contacts="contacts"></ExamChart>
 
   </div>
 
