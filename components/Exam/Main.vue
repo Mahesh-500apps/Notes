@@ -57,7 +57,6 @@
               <div>
                 <ExamAdd  @add="add" @cancel="isOpen = false"></ExamAdd>
               </div>
-              <div><ExamEdit @edit="edit" :contact="contact"></ExamEdit> </div>
             </DialogPanel>
           </TransitionChild>
         </div>
